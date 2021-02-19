@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
 const handlebars = require('express-handlebars');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const post = require("./models/Post")
 
 //Config
 //templeta engine
@@ -23,7 +24,16 @@ app.get('/test', (req,res) => {
 
 app.post('/add', (req, res) => {
     // req.body.titulo
-    res.send(`Titulo: ${req.body.titulo} Conteudo: ${req.body.conteudo}`)
+    // res.send(`Titulo: ${req.body.titulo} Conteudo: ${req.body.conteudo}`)
+
+    post.create({
+        titulo: req.body.titulo,
+        conteudo: req.body.conteudo
+    }).then(() => {
+        res.send("Post criado com sucesso");
+    }).catch(erro => {
+        res.send(erro + "Ocorreu algum erro durante a inserção no banco")
+    })
 })
 
 
