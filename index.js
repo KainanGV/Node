@@ -17,9 +17,19 @@ app.use(bodyParser.json())
 
 
 //Routes
-
-app.get('/test', (req,res) => {
+app.get('/cad', (req, res) => {
     res.render(__dirname+'/views/formulario.handlebars')
+})
+
+app.get('/', (req,res) => {
+    // Enviando a resposta um arquivo por meio deste render, variavel __dirname que retorna o diretorio absoluto
+    // res.render(__dirname+'/views/formulario.handlebars')
+
+    post.findAll().then(function(posts){
+        res.render(__dirname+'/views/home.handlebars',{
+            posts: posts
+        })
+    });
 })
 
 app.post('/add', (req, res) => {
