@@ -10,7 +10,7 @@ app.use(bodyparser.json());
 app.engine('handlebars', handlebars({defaultLayout:'main'}))
 app.set('view engine', 'handlebars')
 
-//Routes
+//Router
 
 
 
