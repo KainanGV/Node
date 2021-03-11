@@ -5,8 +5,22 @@ const app = express();
 const admin = require('./routes/admin');
 const path = require('path');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 //Configs
+app.use(session({
+    secret: "cursodenode",
+    resave: true,
+    saveUninitialized: true
+}))
+app.use(flash())
+
+app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('success_msg'); 
+    res.locals.error_msg = req.flash('error_msg');
+    next()
+})
 app.use(bodyparser.urlencoded({extended: true}))
 app.use(bodyparser.json());
 app.engine('handlebars', handlebars({defaultLayout:'main'}))
@@ -20,6 +34,10 @@ mongoose.connect("mongodb://localhost/appblog").then(() => {
 }).catch(error => {
     console.log("Erro ao se conectar: ", error)
 })
+
+// app.use((req, res, next) => {
+    
+// })
 
 //Router
 app.use('/admin',admin)
